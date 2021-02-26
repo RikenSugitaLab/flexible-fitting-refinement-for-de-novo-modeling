@@ -1,0 +1,23 @@
+
+package require mdff
+
+mdff griddx -i MAP.mrc -o MAP.dx
+
+package require ssrestraints
+package require cispeptide
+package require chirality
+
+
+
+mol new REF\_autopsf.psf
+mol addfile REF\_autopsf.pdb
+mdff gridpdb -psf REF\_autopsf.psf -pdb REF\_autopsf.pdb -o REF\-grid.pdb
+
+
+cispeptide restrain -o REF\-cispeptide.txt
+
+chirality restrain -o REF\-chirality.txt
+
+mdff setup -o REF-5 -psf REF\_autopsf.psf -pdb REF\_autopsf.pdb -griddx MAP.dx -gridpdb REF\-grid.pdb -extrab {REF\-cispeptide.txt REF\-chirality.txt} -gscale 0.5 -minsteps 10000 -numsteps 1000000
+
+

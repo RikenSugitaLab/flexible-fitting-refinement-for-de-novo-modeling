@@ -1,0 +1,41 @@
+###  Docking -- Step 1
+ 
+set PSFFILE REF_autopsf.psf
+set PDBFILE REF_autopsf.pdb
+set GRIDPDB REF-grid.pdb
+set GBISON 0
+set DIEL 80
+set SCALING_1_4 1.0
+set ITEMP 300
+set FTEMP 300
+set GRIDFILE MAP.dx
+set GSCALE 0.5
+set EXTRAB {REF\-cispeptide.txt REF\-chirality.txt}
+set CONSPDB 0
+set FIXPDB  0
+set GRIDON 1
+ 
+set OUTPUTNAME REF-5-step1
+ 
+set TS 1000000
+set MS 10000
+ 
+set MARGIN 0
+ 
+####################################
+ 
+structure $PSFFILE
+coordinates $PDBFILE
+ 
+paraTypeCharmm on
+parameters par_all36_prot.prm
+
+if {[info exists INPUTNAME]} {
+  BinVelocities $INPUTNAME.restart.vel
+  BinCoordinates $INPUTNAME.restart.coor
+} else {
+  temperature $ITEMP
+}
+ 
+ 
+source mdff_template.namd
